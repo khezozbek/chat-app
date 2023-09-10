@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f6f6f6;
+      font-family: Arial, sans-serif;
+    }
+    .chat-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .chat-header {
+      padding: 16px;
+      background-color: #0088cc;
+      color: #fff;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .profile-picture {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    .user-name {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 2px;
+      color: #fff;
+    }
+    .user-status {
+      font-size: 12px;
+      color: #eee;
+    }
+    .chat-body {
+      padding: 16px;
+      min-height: 400px;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .message {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .message-sent {
+      flex-direction: row-reverse;
+    }
+    .message-received .message-sender {
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    .message-content {
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .message-sent .message-content {
+      background-color: #d7eef9;
+    }
+    .message-received .message-content {
+      background-color: #f2f2f2;
+    }
+    .message-timestamp {
+      font-size: 12px;
+      color: #777;
+    }
+    .message-input-container {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+    }
+    .message-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .send-button {
+      margin-left: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container chat-container">
+    <div class="chat-header">
+      <div class="user-info">
+        <img class="profile-picture" src="profile-picture.jpg" alt="Profile Picture">
+        <div>
+          <p class="user-name">John Doe</p>
+          <p class="user-status">Online</p>
+        </div>
+      </div>
+      <a href="lists.html" class="btn btn-primary">Chats</a>
+    </div>
+    <div class="chat-body">
+      <div class="message message-received">
+        <p class="message-sender">Jane Smith</p>
+        <div class="message-content">
+          <p class="message-text">Hello! How are you?</p>
+          <p class="message-timestamp">10:30 AM</p>
+        </div>
+      </div>
+      <div class="message message-sent">
+        <div class="message-content">
+          <p class="message-text">I'm good. How about you?</p>
+          <p class="message-timestamp">10:32 AM</p>
+        </div>
+      </div>
+      <!-- More messages -->
+    </div>
+    <div class="message-input-container">
+      <input type="text" class="message-input" placeholder="Type your message">
+      <button class="btn btn-primary send-button">Send</button>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Function to add a new message to the chat body
+    function addMessage(message, sender, isSent) {
+      const chatBody = $(".chat-body");
+      const messageClass = isSent ? "message-sent" : "message-received";
+      const timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const newMessage = `
+        <div class="message ${messageClass}">
+          ${!isSent ? `<p class="message-sender">${sender}</p>` : ''}
+          <div class="message-content">
+            <p class="message-text">${message}</p>
+            <p class="message-timestamp">${timestamp}</p>
+          </div>
+        </div>`;
+      chatBody.append(newMessage);
+      chatBody.scrollTop(chatBody[0].scrollHeight);
+    }
+
+    // Event listener for sending a message
+    $(".send-button").click(function() {
+      const messageInput = $(".message-input");
+      const message = messageInput.val();
+      addMessage(message, "You", true);
+      messageInput.val("");
+    });
+
+    // Event listener for pressing Enter to send a message
+    $(".message-input").keypress(function(event) {
+      if (event.which === 13) {
+        event.preventDefault();
+        $(".send-button").click();
+      }
+    });
+  </script>
+</body>
+</html>

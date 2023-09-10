@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat App - Chat List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f6f6f6;
+      font-family: Arial, sans-serif;
+    }
+    .chat-app-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .chat-header {
+      padding: 16px;
+      background-color: #0088cc;
+      color: #fff;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .profile-picture {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    .user-name {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    .user-status {
+      font-size: 12px;
+      color: #eee;
+    }
+    .menu-icon {
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    .menu {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      z-index: 1;
+      background-color: #464343;
+      border-radius: 4px;
+      padding: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .menu-item {
+      padding: 4px;
+      cursor: pointer;
+    }
+    .menu-item:hover {
+      background-color: #f2f2f2;
+    }
+    .search-container {
+      padding: 16px;
+      background-color: #f2f2f2;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .chat-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .chat-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #ccc;
+    }
+    .chat-item:last-child {
+      border-bottom: none;
+    }
+    .chat-item:hover {
+      background-color: #f2f2f2;
+    }
+    .chat-item.selected {
+      background-color: #0088cc;
+      color: #fff;
+    }
+    .chat-item .profile-picture {
+      margin-right: 12px;
+    }
+    .chat-item .user-info {
+      flex: 1;
+    }
+    .chat-item .user-name {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    .chat-item .user-status {
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container chat-app-container">
+    <div class="chat-header">
+      <div class="user-info">
+        <img class="profile-picture" src="profile-picture.jpg" alt="Profile Picture">
+        <div>
+          <p class="user-name">John Doe</p>
+          <p class="user-status">Online</p>
+        </div>
+      </div>
+      <div class="menu-icon" onclick="toggleMenu()">☰</div>
+      <div class="menu" id="menu">
+        <div class="menu-item">Settings</div>
+        <div class="menu-item">Logout</div>
+      </div>
+    </div>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search for users">
+    </div>
+    <ul class="chat-list">
+      <li class="chat-item" data-chat-id="1">
+        <img class="profile-picture" src="user1-profile.jpg" alt="User 1 Profile Picture">
+        <div class="user-info">
+          <p class="user-name">User 1</p>
+          <p class="user-status">Online</p>
+        </div>
+        <p class="last-message">Last message from User 1</p>
+      </li>
+      <li class="chat-item" data-chat-id="2">
+        <img class="profile-picture" src="user2-profile.jpg" alt="User 2 Profile Picture">
+        <div class="user-info">
+          <p class="user-name">User 2</p>
+          <p class="user-status">Offline</p>
+        </div>
+        <p class="last-message">Last message from User 2</p>
+      </li>
+      <li class="chat-item" data-chat-id="3">
+        <img class="profile-picture" src="user3-profile.jpg" alt="User 3 Profile Picture">
+        <div class="user-info">
+          <p class="user-name">User 3</p>
+          <p class="user-status">Online</p>
+        </div>
+        <p class="last-message">Last message from User 3</p>
+      </li>
+      <!-- More chat items -->
+    </ul>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Function to handle chat item selection
+    function selectChat(chatItem) {
+      $(".chat-item").removeClass("selected");
+      chatItem.addClass("selected");
+
+      // Retrieve the selected chat ID
+      const chatId = chatItem.data("chat-id");
+
+      // Retrieve the last message for the selected chat from the backend and update the "last-message" element
+      // You'll need to implement the backend logic to fetch the actual last message
+
+      // For demonstration, let's update the "last-message" element with a dummy value
+      chatItem.find(".last-message").text("Last message from User " + chatId);
+
+      // Redirect to the chat page with the selected chat ID
+      window.location.href = "index.html?chat_id=" + chatId;
+    }
+
+    // Event listener for chat item selection
+    $(".chat-item").click(function() {
+      selectChat($(this));
+    });
+
+    // Function to toggle the menu visibility
+    function toggleMenu() {
+      $(".menu").toggle();
+    }
+  </script>
+</body>
+</html>
